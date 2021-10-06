@@ -3,30 +3,25 @@ import TodoAppUI from './todoAppUI';
 import { v4 } from 'uuid';
 
 
-var tempVar = "";
 
 const reducer = (state,action) =>{
-    if(action.type === "change"){
-        tempVar = action.value;
-    }
+    
     if(action.type === "Delete"){
         state = state.filter((curr)=> {
             return curr.id !== action.id
         })
     }
-    if(action.type === "Add" && tempVar.trim() !== "" ){
-        var obj = {id: v4(), value : tempVar}
+    if(action.type === "Add" && action.value.trim() !== "" ){
+        var obj = {id: v4(), value : action.value}
         state = [...state , obj];
-        tempVar = "";
     }
-    if(action.type === "Edit" && tempVar.trim() !== "" ){
+    if(action.type === "Edit" && action.value.trim() !== "" ){
         state = state.map((curr) =>{
             if(curr.id ===action.id){
-                curr.value = tempVar;
+                curr.value = action.value;
             }
             return curr;
         })
-        tempVar = "";
     }
     
     return state;

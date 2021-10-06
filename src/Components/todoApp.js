@@ -26,7 +26,7 @@ const TodoApp = () => {
     
     return (
         <div>
-            <TodoAppUI dispatch = {dispatch} tempVar = {tempVar} />
+            <TodoAppUI dispatch = {dispatch} list = {state} />
             
         </div>
     )

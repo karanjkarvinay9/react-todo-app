@@ -1,5 +1,6 @@
 import React, {useReducer} from 'react'
-import TodoAppUI from './todoAppUI'
+import TodoAppUI from './todoAppUI';
+import { v4 } from 'uuid';
 
 
 var tempVar = "";
@@ -7,16 +8,27 @@ var tempVar = "";
 const reducer = (state,action) =>{
     if(action.type === "change"){
         tempVar = action.value;
-        console.log(tempVar);
+    }
+    if(action.type === "Delete"){
+        state = state.filter((curr)=> {
+            return curr.id !== action.id
+        })
     }
     if(action.type === "Add" && tempVar.trim() !== "" ){
-        state = [...state , tempVar];
+        var obj = {id: v4(), value : tempVar}
+        state = [...state , obj];
         tempVar = "";
     }
-    if(action.type === "show"){
-        state = [...state , 1];
-        console.log(state);
+    if(action.type === "Edit" && tempVar.trim() !== "" ){
+        state = state.map((curr) =>{
+            if(curr.id ===action.id){
+                curr.value = tempVar;
+            }
+            return curr;
+        })
+        tempVar = "";
     }
+    
     return state;
 
 };

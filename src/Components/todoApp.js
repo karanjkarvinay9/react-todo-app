@@ -1,4 +1,4 @@
-import React, {useReducer} from 'react'
+import React, {useReducer, useEffect} from 'react'
 import TodoAppUI from './todoAppUI';
 import { v4 } from 'uuid';
 
@@ -28,9 +28,22 @@ const reducer = (state,action) =>{
 
 };
 
+
+const saveToLocalStorage = (data ) =>{
+    localStorage.setItem("toDoList", JSON.stringify(data))
+}
+
+const getLocalStorageData = () => {
+    const data = localStorage.getItem("toDoList");
+    if(data){
+        return JSON.parse(data);
+    }
+    return [];
+} 
+
 const TodoApp = () => {
-    const [state,dispatch] = useReducer(reducer,[]);
-    
+    const [state,dispatch] = useReducer(reducer,getLocalStorageData());
+    useEffect(() => {saveToLocalStorage(state) },[state])
     return (
         <div>
             <TodoAppUI dispatch = {dispatch} list = {state} />
